@@ -21,7 +21,7 @@
 
                             <span class="flex">
                                   
-                                  <a href="{{route('profile',$thread->creator->name)}}">{{$thread->creator->name}}</a>
+                                  <a href="{{route('profile',$thread->creator->name)}}">{{$thread->creator->name}}({{$thread->creator->reputation}})</a>
                         posted:
                                 {{$thread->title}}
                             </span>

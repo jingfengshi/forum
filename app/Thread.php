@@ -33,10 +33,15 @@ class Thread extends Model
             $thread->replies->each(function($reply){
                 $reply->delete();
             });
+
+            Reputation::demote($thread->creator,Reputation::THREAD_WAS_PUBLISHED);
         });
 
         static::created(function($thread){
             $thread->update(['slug'=>$thread->title]);
+
+            Reputation::award($thread->creator,Reputation::THREAD_WAS_PUBLISHED);
+            //$thread->creator->increment('reputation',10);
         });
 
 
@@ -168,5 +173,7 @@ class Thread extends Model
         $this->best_reply_id = $reply->id;
 
         $this->save();
+
+        Reputation::award($reply->owner,Reputation::BEST_REPLY_AWARDED);
     }
 }

@@ -16,6 +16,7 @@ class Reply extends Model
 
         static::created(function($reply){
             $reply->thread->increment('replies_count');
+            Reputation::award($reply->owner,Reputation::REPLY_POSTED);
         });
 
         static::deleted(function($reply){
@@ -23,6 +24,8 @@ class Reply extends Model
                 $reply->thread->update(['best_reply_id'=>null]);
             }
             $reply->thread->decrement('replies_count');
+
+            Reputation::demote($reply->owner,Reputation::REPLY_POSTED);
         });
     }
 

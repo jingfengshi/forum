@@ -2,7 +2,11 @@
     <div>
         <div class="level">
             <img :src="avatar" alt="" width="40" height="40" class="mr-1">
-            <h1 v-text="user.name"> </h1>
+            <h1 >
+                {{user.name}}
+                <small v-text="reputation"></small>
+            </h1>
+
         </div>
 
 
@@ -34,6 +38,9 @@
         computed:{
             canUpdate(){
                 return this.authroize(user=>user.id === this.user.id)
+            },
+            reputation(){
+                return this.user.reputation + 'xp';
             }
         },
         methods:{
